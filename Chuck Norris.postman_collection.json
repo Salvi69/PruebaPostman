@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "e3d8e266-eb3d-420a-9491-64b6b452734f",
+		"name": "Chuck Norris",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43696878",
+		"_collection_link": "https://salvi-2768123.postman.co/workspace/salvi's-Workspace~032df02a-7a6a-4d93-8693-80f8e4e85189/collection/43696878-e3d8e266-eb3d-420a-9491-64b6b452734f?action=share&source=collection_link&creator=43696878"
+	},
+	"item": [
+		{
+			"name": "Random Joke",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Chuck aprueba este chiste aleatorio\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"\r",
+							"// Contiene la palabra Chuck\r",
+							"    pm.expect(jsonData.value).to.include(\"Chuck\"); \r",
+							"\r",
+							"// Contiene mas de 10 palabras\r",
+							"    pm.expect(jsonData.value.length).to.be.greaterThan(10); \r",
+							"\r",
+							"// Solo quiero tipo string\r",
+							"    pm.expect(typeof jsonData.value).to.eql(\"string\"); \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/jokes/random",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"jokes",
+						"random"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Random Joke from Category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"El chiste de la categoria tiene el sello Norris\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    \r",
+							"// Que al menos tenga una categoria\r",
+							"    pm.expect(jsonData.categories.length).to.be.above(0);\r",
+							"    \r",
+							"// Menciona roundhouse, kick, punch, chuck o norris\r",
+							"    pm.expect(\r",
+							"        jsonData.value.toLowerCase()\r",
+							"    ).to.match(/roundhouse|kick|punch|chuck|norris/);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/jokes/random?category={{category}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"jokes",
+						"random"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "{{category}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Devuelve las 16 categorias\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    // Verifica que el valor sea exactamente igual a 16\r",
+							"    pm.expect(jsonData.length).to.eql(16);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/jokes/categories",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"jokes",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
